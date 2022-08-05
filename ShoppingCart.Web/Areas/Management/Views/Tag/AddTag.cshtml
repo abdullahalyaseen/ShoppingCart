@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Add Tag";
+}
+@model ShoppingCart.Web.Areas.Management.ViewModels.Tags.AddTagViewModel;
+
+
+<form id="form" method="post" asp-action="AddTag" asp-controller="Tag" asp-area="Management" class="md-3 col-4">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" type="Text" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+
+            <input type="submit" value="Add Tag" class="btn btn-primary" />
+
+        </div>
+</form>

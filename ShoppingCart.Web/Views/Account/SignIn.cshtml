@@ -1,0 +1,23 @@
+﻿@model ShoppingCart.Web.ViewModels.SignInViewModel
+
+@{
+    ViewData["title"] = "Sign In";
+   var x = Context.Request.Query["ReturnUrl"];
+}
+<div asp-validation-summary="All" class="text-danger"></div>
+<form asp-action="SignIn" asp-controller="Account">
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <input asp-for="ReturnUrl" value="@x" hidden />
+    <input type="submit" value="Sign In" class="submit" />
+</form>

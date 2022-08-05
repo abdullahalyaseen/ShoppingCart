@@ -1,0 +1,9 @@
+@{
+    ViewData["Title"] = "Tags";
+    var Tags = Model;
+}
+
+@foreach(var tag in Tags){
+    <h6>@tag.TagId</h6>  <h6>@tag.Name</h6>
+   
+}

@@ -1,0 +1,28 @@
+@model ShoppingCart.Web.Areas.Management.ViewModels.Categorys.EditCategoryViewModel;
+@{
+    ViewData["Title"] = "Edit" + Model.CategoryName + "Category";
+
+        var website = Context.Request.Scheme + "://" + Context.Request.Host.Value.ToString() + "/";
+
+}
+
+
+<h1>Edit Category</h1>
+
+<form enctype="multipart/form-data" asp-action="EditCategory" asp-controller="Category"
+asp-area="Management" method="post" class="mt-3 col-4">
+    <div asp-validation-summary="All" ></div>
+    <div class="form-group col">
+        <label asp-for="CategoryName" class="form-label"></label>
+        <input asp-for="CategoryName" class="form-control" />
+        <span asp-validation-for="CategoryName" class="text-danger"></span>
+    </div>
+
+    <Img src="@website@Model.Image" height="300" class="mt-5 mb-5">
+    <div class="form-group col">
+        <label asp-for="NewImage" class="form-label" ></label>
+        <input asp-for="NewImage" class="form-control" />
+        <span asp-validation-for="NewImage" class="text-danger"></span>
+    </div>
+    <input type=submit value="Edit Category" class="btn btn-primary mt-5"/>
+</form>

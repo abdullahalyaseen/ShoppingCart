@@ -1,0 +1,149 @@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf;
+
+@functions {
+    public string getXsrf()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+@model ShoppingCart.Web.Areas.Management.ViewModels.Products.AddProductViewModel;
+
+@{
+    ViewData["Title"] = "Add Product";
+    var list = new SelectList(Model.Categories, "CategoryId", "Name", "CategoryId");
+    var tagList = new SelectList(Model.AllTags, "TagId", "Name", Model.SelfTags);
+}
+
+
+<h3>Add Product</h3>
+
+<form id="form" enctype="multipart/form-data" method="post" asp-action="SaveProduct" asp-controller="Product"
+    asp-area="Management" class="md-3 col-4">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="d-flex justify-content-between px-5 my-3">
+        <div class="form-group">
+            <input asp-for="Featured" type="checkbox" class="form-check-input" />
+            <label asp-for="Featured" class="form-check-label"></label>
+            <span asp-validation-for="Featured" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input asp-for="Archived" type="checkbox" class="form-check-input" />
+            <label asp-for="Archived" class="form-check-label"></label>
+            <span asp-validation-for="Archived" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group col my-2">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col my-2">
+        <label asp-for="Price" class="control-label"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col my-2">
+        <label asp-for="SalePrice" class="control-label"></label>
+        <input asp-for="SalePrice" class="form-control" />
+        <span asp-validation-for="SalePrice" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col my-2">
+        <label asp-for="CategoryId" class="control-label"></label>
+        <select asp-for="CategoryId" class="form-select" asp-items="list">
+            <option disabled selected>Category</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group col my-2">
+        <label asp-for="SelfTags" class="control-label"></label>
+        <select asp-for="SelfTags" class="form-select" asp-items="tagList">
+        </select>
+        <span asp-validation-for="SelfTags" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col my-2">
+        <label asp-for="ShortDescription" class="control-label"></label>
+        <textarea asp-for="ShortDescription" class="form-control"></textarea>
+        <span asp-validation-for="ShortDescription" class="text-danger"></span>
+    </div>
+
+
+
+    <div class="form-group col my-2">
+        <label asp-for="Sku" class="control-label"></label>
+        <input asp-for="Sku" class="form-control" />
+        <span asp-validation-for="Sku" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col my-2">
+        <label asp-for="Quantity" class="control-label"></label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group col my-2">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col my-2">
+        <label asp-for="MainImage" class="control-label"></label>
+        <input asp-for="MainImage" type="file" class="form-control" />
+        <span asp-validation-for="MainImage" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col my-2">
+        <label asp-for="Images" class="control-label"></label>
+        <input asp-for="Images" type="file" multiple="true" class="form-control" />
+        <span asp-validation-for="Images" class="text-danger"></span>
+
+    </div>
+
+    <input id="submit" type="submit" value="Add Product" class="btn btn-primary mt-5" />
+</form>
+
+
+@section scripts{
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#form").on('submit', function (e) {
+            $("#submit").prop("disabled", true);
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '@Url.ActionLink("SaveProduct","Product",new {area = "Management"})',
+                processData: false,
+                contentType: false,
+                cache: false,
+                headers: {
+                    "RequestVerificationToken": "@getXsrf()"
+                },
+                content: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: new FormData(this),
+                success: function (response) {
+                    window.location.href = response.redirectToUrl;
+                },
+                error: function (err,dd,aa) {
+                    $("#submit").prop("disabled", false);
+                    var validator = $("#form").validate();
+                    validator.settings.rules;
+                    validator.settings.messages;
+                    validator.showErrors(err.responseJSON);
+
+                }
+
+            });
+        });
+    });
+</script>
+}

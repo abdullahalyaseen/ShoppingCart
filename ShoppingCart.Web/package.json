@@ -1,0 +1,14 @@
+{
+  "name": "shoppingcart",
+  "version": "1.0.0",
+  "description": "A Shopping Cart Web Application built with ASP.NET Core MVC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abdullah AlYaseen",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap-icons": "^1.9.1"
+  }
+}

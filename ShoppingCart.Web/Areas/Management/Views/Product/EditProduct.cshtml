@@ -1,0 +1,201 @@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf;
+
+@functions {
+    public string getXsrf()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+@model ShoppingCart.Web.Areas.Management.ViewModels.Products.EditProductViewModel;
+@{
+    ViewData["Title"] = Model.Title;
+    SelectList CategoryListItems = new SelectList(Model.Categories, "CategoryId", "Name", "CategoryId");
+    var tagList = new SelectList(Model.AllTags, "TagId", "Name", Model.SelfTags);
+    var baseUrl = BaseUrl.GetBaseUrl(Context);
+
+}
+
+
+<artical>
+    <h1>@Model.Title</h1>
+    <h6>Added At: @Model.AddedAt | by: </h6>
+    <input id="delete" type="button" value="Delete" class="btn btn-danger" />
+    <form asp-action="SaveEditProduct" asp-controller="Product" asp-area="Management" method="post" id="form"
+        enctype="multipart/form-data">
+        <input type=text asp-for="Id" hidden />
+        <div asp-validation-summary="All"></div>
+        <div class="row">
+
+            <section class="col-sm-6">
+                <div class="d-flex justify-content-between px-5 my-3">
+                    <div class="form-group">
+                        <input asp-for="Featured" type="checkbox" class="form-check-input" />
+                        <label asp-for="Featured" class="form-check-label"></label>
+                        <span asp-validation-for="Featured" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="Archived" type="checkbox" class="form-check-input" />
+                        <label asp-for="Archived" class="form-check-label"></label>
+                        <span asp-validation-for="Archived" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="control-group col mb-3">
+                    <label asp-for="Title" class="form-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title"></span>
+                </div>
+
+                <div class="control-group mb-3">
+                    <label asp-for="Price" class="form-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price"></span>
+                </div>
+
+                <div class="control-group mb-3">
+                    <label asp-for="SalesPrice" class="form-label"></label>
+                    <input asp-for="SalesPrice" class="form-control" />
+                    <span asp-validation-for="SalesPrice"></span>
+                </div>
+
+                <div class="form-group mb-3 col-sm-6">
+                    <label asp-for="CategoryId" class="form-label select-label"></label>
+                    <select asp-for="CategoryId"  class="form-select" asp-items="CategoryListItems">
+                    </select>
+                    <span asp-validation-for="CategoryId"></span>
+                </div>
+
+                <div class="form-group col my-2 col-sm-6">
+                    <label asp-for="SelfTags" class="form-label"></label>
+                    <select asp-for="SelfTags" class="select"  multiple asp-items="tagList">
+                    </select>
+                    <span asp-validation-for="SelfTags" class="text-danger"></span>
+                </div>
+
+
+                <div class="control-group mb-3">
+                    <label asp-for="Sku" class="form-label"></label>
+                    <input asp-for="Sku" class="form-control" />
+                    <span asp-validation-for="Sku"></span>
+                </div>
+                <div class="control-group mb-3">
+                    <label asp-for="Quantity" class="form-label"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity"></span>
+                </div>
+
+                <div class="control-group mb-3">
+                    <label asp-for="ShortDescription" class="form-label"></label>
+                    <textarea asp-for="ShortDescription" class="form-control"></textarea>
+                    <span asp-validation-for="ShortDescription"></span>
+                </div>
+
+                <div class="control-group mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description"></span>
+                </div>
+
+                <input id="save" type="submit" value="Save changes" class="btn btn-primary" />
+            </section>
+            <section class="col-sm-4">
+                <h2>Images</h2>
+                <h4>Main Image:</h4>
+                <img src="@baseUrl@Model.MainImage" height="100" />
+                <div class="control-group mb-3">
+                    <label asp-for="NewImage" class="form-label"></label>
+                    <input type="file" asp-for="NewImage" class="form-control" />
+                    <span asp-validation-for="NewImage"></span>
+                </div>
+
+                <div class="row">
+                    @foreach (var image in Model.Images)
+                    {
+                        <div class="col-3 m-4">
+                            <img src="@baseUrl@image.Url" class="" height="100" />
+
+                        </div>
+                    }
+                </div>
+                <div class="control-group mb-3">
+                    <label asp-for="NewGallery" class="form-label"></label>
+                    <input type="file" multiple asp-for="NewGallery" class="form-control" />
+                    <span asp-validation-for="NewGallery"></span>
+                </div>
+            </section>
+
+        </div>
+    </form>
+
+</artical>
+
+@section Scripts{
+<script type="text/javascript">
+
+
+    $(document).ready(
+        
+        
+        function () {
+        $("#form").on('submit', function (e) {
+            $("#save").prop("disabled", true);
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '@Url.ActionLink("SaveEditProduct","Product",new {area = "Management"})',
+                processData: false,
+                contentType: false,
+                cache: false,
+                headers: {
+                    "RequestVerificationToken": "@getXsrf()"
+                },
+                content: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: new FormData(this),
+                success: function (response) {
+                    window.location.href = response.redirectToUrl;
+                },
+                error: function (err, dd, aa) {
+                    $("#save").prop("disabled", false);
+                    var validator = $("#form").validate();
+                    validator.settings.rules;
+                    validator.settings.messages;
+                    validator.showErrors(err.responseJSON);
+
+                }
+
+            });
+        });
+
+        @* //////////////////////////////////////// *@
+            $("#delete").on('click', function (e) {
+                var data = {};
+                data.id = @Model.Id;
+                data = JSON.stringify(data);
+                $("#save").prop("disabled", true);
+                $("#delete").prop("disabled", true);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.ActionLink("DeleteProduct","Product",new {area = "Management", id = @Model.Id})',
+
+                    headers: {
+                        "RequestVerificationToken": "@getXsrf()"
+                    },
+                    success: function (response) {
+                        window.location.href = response.redirectToUrl;
+                    },
+                    error: function (err, dd, aa) {
+                        $("#save").prop("disabled", false);
+                        $("#delete").prop("disabled", false);
+                        console.log("faild!")
+
+
+                    }
+
+                });
+            });
+
+
+    });
+</script>
+
+}

@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Users";
+    int index = 1;
+
+    var users = Model;
+}
+<a asp-action="AddUser" asp-controller="User" asp-area="Management" class="btn btn-primary">Add User</a>
+@if (users.Count != 0)
+{
+
+    <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var User in Model)
+            {
+ <tr class="align-middle">
+                    <th scope="row">@index</th>
+                    <td>
+                        <h4>@User.FirstName @User.LastName</h4>
+                    </td>
+
+                    <td>
+                        <h4>@User.UserName</h4>
+                    </td>
+                    <td>
+                        <div class="d-flex">
+                            <a asp-action="EditUser" asp-controller="User" asp-area="Management"
+                        asp-route-id="@User.Id" class="mb-1 btn btn-primary">Edit</a>
+                        <div class="mx-1"></div>
+                            <form method="post" asp-action="DeleteUser" asp-controller="User" asp-area="Management"
+                        asp-route-id="@User.Id" class="">
+                                <input type="submit" value="Delete" class="btn btn-danger" />
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                index++;
+            }
+        </tbody>
+    </table>
+
+
+
+
+}
+else
+{
+    <H3>No Users!</H3>
+}

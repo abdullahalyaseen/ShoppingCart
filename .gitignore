@@ -1,0 +1,13 @@
+qlite.db
+.vs
+.vscode
+qlite.db-shm
+qlite.db-wal
+Migrations
+Images/
+.fake
+appsettings.Development.json
+node_modules
+.DS_Store
+bin/
+obj/

@@ -1,0 +1,45 @@
+﻿
+@{
+
+    ViewData["Title"] = "Categories";
+    int index = 1;
+
+    var website = BaseUrl.GetBaseUrl(Context);
+}
+
+
+<a class="btn btn-primary mb-4" role="button" asp-area="Management" asp-action="AddCategory" asp-controller="Category">New Category</a>
+@if(Model.Count != 0){
+    <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Category Name</th>
+            <th scope="col">Category Image</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+            {
+    <tr class="align-middle">
+        <th scope="row">@index</th>
+        <td><h4>@category.Name</h4></td>
+        
+        <td><img src="@website@category.ImageUrl" asp-append-version="true" height="100"/></td>
+        <td>
+        <div>
+        <a asp-action="EditCategory" asp-controller="Category" asp-area="Management" asp-route-id="@category.CategoryId" class="mb-1 btn btn-primary">Edit</a>
+        <form method="post" asp-action="DeleteCategory" asp-controller="Category" asp-area="Management" asp-route-id="@category.CategoryId" class="">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </form>
+        </div>
+        </td>
+    </tr>
+                index++;
+            }
+    </tbody>
+</table>
+}else{
+    <h3>No Categories!</h3>
+}

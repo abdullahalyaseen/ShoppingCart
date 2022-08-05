@@ -1,0 +1,50 @@
+@model ShoppingCart.Web.Areas.Management.ViewModels.Products.ProductIndexViewModel;
+@{
+    ViewData["Title"] = "Products";
+    int index = 1;
+    string website = BaseUrl.GetBaseUrl(Context);
+    string archiveColor(bool archive,bool featured){
+        string CssClass = "";
+        if(archive){
+            CssClass = " table-secondary ";
+        }if(featured){
+            CssClass = " table-primary ";
+        }
+        return CssClass;
+        
+    }
+}
+
+<a asp-action="AddProduct" asp-controller="Product" asp-area="Management" class="btn btn-primary mb-2">Add Product</a>
+@if(Model.Products.Count() != 0){
+     <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Categody</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Product in Model.Products)
+            {
+    <tr class="align-middle @archiveColor(Product.Archived,Product.Featured)">
+        <th scope="row">@index</th>
+        <td><a asp-action="EditProduct" asp-controller="Product" asp-area="Management" asp-route-id="@Product.ProductId">@Product.Title</a></td>
+        
+        <td>{{Product.Price / 100}}</td>
+        <td>@Product.Category.Name</td>
+    </tr>
+                index++;
+            }
+    </tbody>
+</table>
+
+
+
+
+}else{
+    <h2>No Products!</h2>
+}
+

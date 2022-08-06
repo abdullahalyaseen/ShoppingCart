@@ -125,8 +125,8 @@ namespace ShoppingCart.Web.Areas.Management.Controllers
                     {
                         Id = product.ProductId,
                         Title = product.Title,
-                        Price = product.Price / 100,
-                        SalesPrice = product.SalesPrice / 100,
+                        Price = product.Price / 100.0,
+                        SalesPrice = product.SalesPrice / 100.0,
                         CategoryId = product.CategoryId,
                         MainImage = product.MainImage,
                         ShortDescription = product.ShortDescription,

@@ -10,9 +10,7 @@ namespace ShoppingCart.Web.ViewModels.Product{
 
         public double SalesPrice {get; set;}
 
-        public string MainImage {get; set;}
-
-        public IEnumerable<Image> Gallery{ get; set;}
+        public List<string> Gallery{ get; set;}
 
         public IEnumerable<Tag> Tags {get; set;}
 
@@ -23,6 +21,10 @@ namespace ShoppingCart.Web.ViewModels.Product{
         public string Sku {get; set;}
 
         public IEnumerable<Review> Reviews{ get ;set;}
+
+        public double Rating {get; set;}
+
+        public int NumberOfReview {get; set;}
 
 
     }

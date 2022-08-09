@@ -35,6 +35,7 @@ builder.Services.ConfigureApplicationCookie(config =>
 
 
 
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("view-management", policy => policy.RequireClaim("view", "management"));

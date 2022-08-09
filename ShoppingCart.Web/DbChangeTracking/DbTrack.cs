@@ -6,9 +6,6 @@ namespace ShoppingCart.Web.DbChangeTracking
 {
     public class DbTrack : DbTracker
     {
-        
-
-
         private IWebHostEnvironment _env;
         //Register Tracker for each model want to be tracked *Important : the name of Model Tracker must be identical with the model name in the DbContext*
 

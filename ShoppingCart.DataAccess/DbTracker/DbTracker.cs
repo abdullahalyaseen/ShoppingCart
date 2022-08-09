@@ -33,7 +33,10 @@ namespace ShoppingCart.DataAccess.DbChangeTracking
             if (member != null)
             {
                 object instance = member.GetValue(this);
-                instance.GetType().GetMethod(state).Invoke(instance, parms);
+                if (instance != null)
+                {
+                    instance.GetType().GetMethod(state).Invoke(instance, parms);
+                }
             }
         }
     }

@@ -28,6 +28,9 @@ namespace ShoppingCart.Web.DbChangeTracking
         public void Modified(Image model){
 
         }
+        public void Unchanged(Image model)
+        {
+        }
 
     }
 }

@@ -8,6 +8,7 @@ namespace ShoppingCart.DataAccess.DbChangeTracking
         void Added(TModel model);
 
         void Modified(TModel model);
+        void Unchanged(TModel model);
 
     }
 

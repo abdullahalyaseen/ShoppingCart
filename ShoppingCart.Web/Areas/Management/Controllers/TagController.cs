@@ -74,7 +74,7 @@ namespace ShoppingCart.Web.Areas.Management.Controllers
         [Authorize(Policy = "delete-tag")]
         public IActionResult DeleteTag()
         {
-            return View();
+            return RedirectToAction("Index", "Tag", new { area = "Management" });
         }
 
     }

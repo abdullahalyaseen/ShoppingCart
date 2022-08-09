@@ -11,6 +11,7 @@ namespace ShoppingCart.DataAccess.Interfaces
         IProductRepository Product {get;}
         ITagRepository Tag {get; }
         IImageRepository Image {get;}
+        ICartItemRepository CartItem { get; }
         int Complete();
     }
 }

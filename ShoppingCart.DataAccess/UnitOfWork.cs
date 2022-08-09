@@ -23,6 +23,7 @@ namespace ShoppingCart.DataAccess
             Product = new ProductRepository(_Context);
             Tag = new TagRepository(_Context);
             Image = new ImageRepository(_Context);
+            CartItem = new CartItemRepository(_Context);
 
         }
 
@@ -34,6 +35,7 @@ namespace ShoppingCart.DataAccess
         public virtual IProductRepository Product { get; private set; }
         public virtual ITagRepository Tag { get; private set; }
         public virtual IImageRepository Image { get; private set; }
+        public virtual ICartItemRepository CartItem { get; private set; }
         public virtual int Complete()
         {
             _Context.SavingChanges += _DbTracker.SavingChanges;

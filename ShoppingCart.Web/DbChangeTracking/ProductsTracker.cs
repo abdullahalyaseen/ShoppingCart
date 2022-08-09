@@ -1,11 +1,13 @@
 using ShoppingCart.DataAccess.DbChangeTracking;
 using ShoppingCart.Models;
 using ShoppingCart.Utilities.files;
+
 namespace ShoppingCart.Web.DbChangeTracking
 {
     public class ProductsTracker : IModelTracker<Product>
     {
         private IWebHostEnvironment _env;
+
         public ProductsTracker(IWebHostEnvironment env)
         {
             _env = env;
@@ -29,13 +31,16 @@ namespace ShoppingCart.Web.DbChangeTracking
             }
         }
 
-        public void Added(Product model) { }
+        public void Added(Product model)
+        {
+        }
 
         public void Modified(Product model)
         {
-
         }
 
-
+        public void Unchanged(Product model)
+        {
+        }
     }
 }

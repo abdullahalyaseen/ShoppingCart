@@ -27,5 +27,8 @@ namespace ShoppingCart.Web.DbChangeTracking
         public void Modified(Category model)
         {
         }
+        public void Unchanged(Category model)
+        {
+        }
     }
 }

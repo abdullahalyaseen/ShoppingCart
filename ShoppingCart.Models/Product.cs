@@ -39,9 +39,9 @@ namespace ShoppingCart.Models
 
         public virtual ICollection<Review> Reviews { get; set; }
 
-        public virtual CartItem CartItem { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
 
-        public virtual OrderItem OrderItem { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
 
         public virtual ICollection<Image> Images { get; set; }
 

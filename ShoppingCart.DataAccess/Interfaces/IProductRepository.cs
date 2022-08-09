@@ -6,5 +6,6 @@ namespace ShoppingCart.DataAccess.Interfaces
 
 
         Product GetForEdit(int id);
+        public KeyValuePair<bool,int> CheckProductAvailability(int productId, int quantity);
     }
 }

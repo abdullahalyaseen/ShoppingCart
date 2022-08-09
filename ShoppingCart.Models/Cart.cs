@@ -1,11 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 namespace ShoppingCart.Models
 {
     public class Cart
     {
-        public int CartId {get; set;}
+        [Key]
+        public Guid CartId {get; set; }
 
-        public int ApplicationUserId { get; set; }
+        public int? ApplicationUserId { get; set; }
 
 
 

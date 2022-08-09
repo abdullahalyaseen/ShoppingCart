@@ -42,7 +42,7 @@ namespace ShoppingCart.Web.Areas.Management.ViewModels.Products
         [Required]
         [Display(Name = "SKU")]
         public string Sku { get; set; }
-        [Range(1, int.MaxValue, ErrorMessage = "Quantity is Required")]
+        // [Range(1, int.MaxValue, ErrorMessage = "Quantity is Required")]
         [Required]
         [Display(Name = "Inventory Quantity")]
         public int Quantity { get; set; }

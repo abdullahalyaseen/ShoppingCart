@@ -16,34 +16,34 @@ namespace ShoppingCart.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Product(string Id)
+        public IActionResult Product(string id)
         {
-            int productId = ProductUrl.GetProductId(Id);
+            int productId = ProductUrl.GetProductId(id);
             var product = _unitOfWork.Product.GetWith(p=>p.ProductId == productId,"Images,Tags,Reviews");
-            List<string> gallery = new List<string>();
-            gallery.Add(product.MainImage);
-            foreach(var image in product.Images){
-                gallery.Add(image.Url);
+            if (product != null)
+            {
+                List<string> gallery = new List<string>();
+                gallery.Add(product.MainImage);
+                foreach(var image in product.Images){
+                    gallery.Add(image.Url);
+                }
+                ProductViewModel Model = new ProductViewModel();
+                Model.Id = product.ProductId;
+                Model.Title = product.Title;
+                Model.Price = product.Price / 100.0;
+                Model.SalesPrice = product.SalesPrice / 100.0;
+                Model.Quantity = product.Quantity;
+                Model.Sku = product.Sku;
+                Model.Description = product.Description.Split(Environment.NewLine).ToList();
+                Model.ShortDescription = product.ShortDescription;
+                Model.Tags = product.Tags;
+                Model.Gallery = gallery;
+                Model.Rating = CalculateRating(product.Reviews);
+                Model.NumberOfReview = product.Reviews == null ? 0 : product.Reviews.Count();
+                return View(Model);
             }
-            ProductViewModel Model = new ProductViewModel();
-            Model.Id = product.ProductId;
-            Model.Title = product.Title;
-            Model.Price = product.Price / 100.0;
-            Model.SalesPrice = product.SalesPrice / 100.0;
-            Model.Sku = product.Sku;
-            Model.Description = product.Description;
-            Model.ShortDescription = product.ShortDescription;
-            Model.Tags = product.Tags;
-            Model.Gallery = gallery;
-            Model.Rating = CalculateRating(product.Reviews);
-            Model.NumberOfReview = product.Reviews == null ? 0 : product.Reviews.Count();
 
-
-
-
-
-
-            return View(Model);
+            return RedirectToAction("Index", "Home");
         }
 
         //TODO: For Development only

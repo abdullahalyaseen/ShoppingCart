@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using ShoppingCart.Web.Areas.Management.Models;
 using Microsoft.AspNetCore.Authorization;
+using ShoppingCart.Web.Models;
 namespace ShoppingCart.Web.Areas.Management.Controllers;
 
 
@@ -27,6 +27,7 @@ public class HomeController : ManagementController
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
+        
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

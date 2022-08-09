@@ -6,7 +6,11 @@ namespace ShoppingCart.DataAccess.Repositories
 {
     public class CartRepository : Repository<Cart>,ICartRepository
     {
-        public ShoppingCartContext ShoppingCartContext
+        public Cart Get(Guid id)
+        {
+            return context.Carts.Find(id);
+        }
+        public ShoppingCartContext context
         {
             get
             {

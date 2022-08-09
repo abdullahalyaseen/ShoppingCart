@@ -15,8 +15,28 @@ namespace ShoppingCart.DataAccess.Repositories
             .Include(p => p.Images)
             .Include(p=>p.Tags)
             .FirstOrDefault(p => p.ProductId == id);
-
             return product;
+        }
+
+        public KeyValuePair<bool,int> CheckProductAvailability(int productId, int quantity)
+        {
+            var product = context.Products.Find(productId);
+            if (product != null)
+            {
+                if (product.Quantity >= quantity)
+                {
+                    return new KeyValuePair<bool, int>(key:true,product.Quantity);
+                }
+                if (product.Quantity == 0)
+                {
+                    return new KeyValuePair<bool, int>(false, 0);
+                }
+                if(product.Quantity < quantity)
+                {
+                    return  new KeyValuePair<bool, int>(false, product.Quantity);
+                }
+            }
+            return new KeyValuePair<bool, int>(false, -1);
         }
         public ShoppingCartContext context
         {

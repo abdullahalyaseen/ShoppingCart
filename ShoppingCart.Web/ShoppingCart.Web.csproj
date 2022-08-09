@@ -52,6 +52,7 @@
     <Folder Include="Areas\" />
     <Folder Include="Areas\Management\" />
     <Folder Include="Areas\Management\Controllers\" />
+    <Folder Include="Areas\Management\Models" />
     <Folder Include="Areas\Management\Views\" />
     <Folder Include="Areas\Management\ViewModels\" />
     <Folder Include="ViewModels\" />

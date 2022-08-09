@@ -45,7 +45,8 @@ namespace ShoppingCart.DataAccess
         {
 
             builder.Entity<Product>().HasMany(p => p.Tags).WithMany(t => t.Products);
-
+            builder.Entity<Product>().HasMany(p => p.CartItems);
+            
             builder.Entity<ApplicationUser>().HasData(new ApplicationUser { Id = 1, IsCustomer = false, FirstName = "Admin", LastName = "Admin", UserName = "admin@admin.com", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = hasher.HashPassword(new ApplicationUser { Id = 1, IsCustomer = false, FirstName = "Admin", LastName = "Admin", UserName = "admin@admin.com", NormalizedUserName = "ADMIN@ADMIN.COM" }, "Abudtoni@92") });
             builder.Entity<ApplicationUser>().HasData(new ApplicationUser { Id = 2, IsCustomer = true, FirstName = "Abdullah", LastName = "Alyaseen", UserName = "abdullahalheem@gmail.com", NormalizedUserName = "ABDULLAHALHEEM@GMAIL.COM", PasswordHash = hasher.HashPassword(new ApplicationUser { Id = 2, IsCustomer = true, FirstName = "Abdullah", LastName = "Alyaseen", UserName = "abdullahalheem@gmail.com", NormalizedUserName = "ABDULLAHALHEEM@GMAIL.COM" }, "Abudtoni@92") });
             builder.Entity<Role>().HasData(new Role { Id = 1, Name = BuiltInRoles.admin, NormalizedName = BuiltInRoles.admin.ToUpper() });

@@ -1,0 +1,132 @@
+@model ShoppingCart.Web.ViewModels.Checkout.CheckOutViewModel;
+
+
+@{
+    ViewData["Title"] = "Payment";
+    SelectList addresses = new SelectList(Model.Addresses, "AddressId", "AddressLabel");
+}
+
+@functions
+{
+    public double changeToDouble(int num)
+    {
+        return Math.Round(num / 100.0, 2);
+    }
+}
+
+<form asp-action="PlaceOrder" asp-controller="CheckOut" asp-antiforgery="true">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="row border m-1 py-2">
+                <div class="col-6">
+                    <div class="row">
+                        <h5 class="col-7">Shipping Address</h5>
+                        <a asp-action="AddAddress" asp-controller="Address" class="col-4">Add New</a>
+                    </div>
+                    <select class="list-group w-75" asp-for="ShippingAddressId" asp-items="@addresses"></select>
+                    <span asp-validation-for="ShippingAddressId" class="text-danger mx-3"></span>
+                </div>
+                <div class="col-6 ">
+                    <div class="row">
+                        <h5 class="col-7">billing address</h5>
+                        <a asp-action="AddAddress" asp-controller="Address" class="col-4">Add New</a>
+                    </div>
+                    <select class="list-group w-75" asp-for="BillingAddressId" asp-items="@addresses"></select>
+                    <span asp-validation-for="BillingAddressId" class="text-danger mx-3"></span>
+                </div>
+            </div>
+            <div class=" border m-1 mt-3 py-2">
+                <h5>shipping services</h5>
+                @foreach (var service in Model.ShippingServices)
+                {
+                    <div class="form-check card mx-3">
+                        <input required onclick="calculateShipping()" class="form-check-input" type="radio" price="@changeToDouble(service.Price)" name="ShippingServiceId" value="@service.ShippingServiceId" id="@service.ShippingServiceId"/>
+                        <label class="form-check-label" for="@service.ShippingServiceId">
+                            <p>@service.Name</p>
+                            <p>@service.Descrption</p>
+                            <p>@changeToDouble(service.Price)</p>
+                        </label>
+                    </div>
+                }
+                <span asp-validation-for="ShippingServiceId" class="text-danger mx-3"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row border m-1 py-2 px-2">
+                <h5>Order Summary</h5>
+                <hr/>
+                <div class="row">
+                    <span class="col-8">Order Subtotal:</span>
+                    <span class="col-4">
+                        <span>$</span>@Model.Subtotal
+                    </span>
+                </div>
+                <hr/>
+                <div class="row">
+                    <span class="col-8">Discount:</span>
+                    <span class="col-4">
+                        <span>@Model.Discount</span>%
+                    </span>
+                </div>
+                <hr/>
+                <div class="row">
+                    <span class="col-8">Shipping:</span>
+                    <span class="col-4">$<span id="shipping">0</span></span>
+                </div>
+                <hr/>
+                <div class="row text-black fw-bold fs-4">
+                    <span class="col-8">Order Total:</span>
+                    <span class="col-4">$<span id="total">@Model.Total</span></span>
+                </div>
+            </div>
+            <div class="row border m-1 py-2 px-2">
+                <h5>Payment</h5>
+                <hr/>
+                <div>
+                    <label asp-for="CardNumber" class="form-label"></label>
+                    <input class="form-control" asp-for="CardNumber" placeholder="4545 4545 4545 4545">
+                    <span asp-validation-for="CardNumber" class="text-danger"></span>
+                </div>
+                <div class="row my-3">
+                    <div class="col-3">
+                        <label asp-for="Month" class="form-label"></label>
+                        <input class="form-control" asp-for="Month" placeholder="11" value="">
+
+                    </div>
+                    <div class="col-4">
+                        <label asp-for="Year" class="form-label"></label>
+                        <input class="form-control" asp-for="Year" placeholder="2030" value="">
+
+                    </div>
+                    <div class="col-3">
+                        <label asp-for="Cvc" class="form-label"></label>
+                        <input class="form-control" asp-for="Cvc" placeholder="123" value="">
+
+                    </div>
+                    <span asp-validation-for="Month" class="text-danger"></span>
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                    <span asp-validation-for="Cvc" class="text-danger"></span>
+                </div>
+                <div class="row justify-content-center">
+
+                    <div class="col-4">
+                        <input class="btn btn-warning" type="submit" value="Place Order!"/>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+    function calculateShipping(){
+        let shippingPrice = $('input[name="ShippingServiceId"]:checked').attr("price");
+        $('#shipping').text(shippingPrice);
+        $('#total').text(parseFloat(@Model.Total) + parseFloat(shippingPrice));
+    }
+    </script>
+}

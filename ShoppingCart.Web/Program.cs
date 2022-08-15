@@ -7,7 +7,6 @@ using ShoppingCart.Web.DbChangeTracking;
 using ShoppingCart.Models;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using ShoppingCart.Web;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,6 +57,8 @@ builder.Services.AddAuthorization(options =>
 
 });
 
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -74,6 +75,7 @@ app.UseStaticFiles(new StaticFileOptions{
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"node_modules")),
     RequestPath = new PathString("/vendor")
 });
+
 
 app.UseRouting();
 

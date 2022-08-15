@@ -41,8 +41,6 @@
   font-weight: 600;
   color: red;
   text-decoration: line-through;
-
-
 }
 
 .sales-price{
@@ -52,6 +50,27 @@
   color: green;
 }
 
+
+.cart-price{
+margin: 0 2px;
+}
+.cart-cancelled-price{
+  margin: 0 4px;
+  color: red;
+  text-decoration: line-through;
+}
+
+.cart-sales-price{
+  margin: 0 4px;
+  color: green;
+}
+.cart-image{
+  width: 100px;
+}
+.total-price{
+  font-size: large;
+  font-weight: bold;
+}
 
 /* Quantity Selector Product page */
 .qty .count {

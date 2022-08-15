@@ -4,6 +4,7 @@
     ViewData["Title"] = Model.Title;
     string baseUrl = BaseUrl.GetBaseUrl(Context);
     string priceClass = Model.SalesPrice != 0 ? "cancelled-price" : "price";
+    string disableAddToCart = Model.Quantity == 0 ? "disabled" : "";
 }
 @functions {
     private string ActiveSlideClass(int index) => index == 0 ? "active" : "";
@@ -61,10 +62,10 @@
                     <span class="plus bg-dark">+</span>
                 </div>
                 <div class="d-inline col-3 ">
-                    TODO: Check If the product quantity = 0 to disable the button
-                    <button id="add-to-cart" type="button" class="btn btn-warning add-to-cart">Add To Cart</button>
+                    <button id="add-to-cart" type="button" class="btn btn-warning add-to-cart" @disableAddToCart>Add To Cart</button>
                 </div>
             </div>
+            <span id="max-qty" class="d-block text-danger"></span>
         </div>
     </div>
     <nav class="mt-5">
@@ -132,10 +133,19 @@
                success:function(response) {
                  //  write code to show successfully added item
                  console.log(response);
+                 $('#cart-icon').removeClass('bi-cart');
+                 $('#cart-icon').addClass('bi-cart-fill');
                },
                error:function(err,dd,aa) {
                  //write code to show maximum quantity or redirect to index if the prodect is not in the database
-                 console.log(err.responseText);
+                 
+                 if (JSON.parse(err.responseText)['result'] === 0){
+                     $('#add-to-cart').attr('disabled', true);
+                     updateCartIcon();
+                 }if (JSON.parse(err.responseText)['result'] === 'Failed'){
+                     $('#max-qty').text("Maximum number is: "+JSON.parse(err.responseText)['max']);
+                     console.log(JSON.parse(err.responseText));
+                 }
                }
                })
             });

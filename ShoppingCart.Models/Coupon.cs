@@ -10,6 +10,8 @@ namespace ShoppingCart.Models
         public string Type { get; set; }
 
         public bool SingleUse { get; set; }
+        
+        public int UsedBefore { get; set; }
 
         public int Amount { get; set; }
 
@@ -19,6 +21,8 @@ namespace ShoppingCart.Models
 
 
         public virtual ICollection<Order> Orders { get; set; }
+        
+        public IEnumerable<Cart> Carts { get; set; }
     }
 }
 

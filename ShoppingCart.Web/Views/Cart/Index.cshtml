@@ -1,0 +1,198 @@
+@model ShoppingCart.Web.ViewModels.Cart.CartViewModel;
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf;
+
+@functions {
+
+    public string getXsrf()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+
+}
+
+@{
+    ViewData["Title"] = "Cart";
+
+
+}
+
+@if (Model != null)
+{
+    <div class="row details">
+        <div class="col-md-9">
+            <div class="border me-2">
+                @foreach (var item in Model.CartItems)
+                {
+                    <partial name="_ItemPartialView" model="item"/>
+                }
+            </div>
+        </div>
+        <div class="col-md-3 ">
+            <div class="p-1 border">
+                <h5>Summary</h5>
+                <hr/>
+                <div class="row justify-content-between">
+                    <span class="col-8">Items subtotal:</span>
+                    <div class="col-4">
+                        <span>$</span>
+                        <span id="subtotal">@Model.SubTotal</span>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row justify-content-between">
+                    <span class="col-8">Discount:</span>
+                    <div class="col-4">
+                        <span id="discount">@Model.Discount</span>
+                        <span>%</span>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row justify-content-between total-price">
+                    <span class="col-7 ">Items total:</span>
+                    <div class="col-5">
+                        <span>$</span>
+                        <span id="total">@Model.Total</span>
+                    </div>
+                </div>
+                <hr class="my-3"/>
+                <p>Do you have a Promo code?</p>
+                <div>
+                    <input asp-for="CouponCode"/>
+                    <button onclick="calculateCart()" class="btn">Apply!</button>
+                </div>
+                <span id="coupon-error" class="text-danger"></span>
+            </div>
+            <div class="row mt-3 px-3">
+                <a asp-action="CartValidation" asp-controller="Cart" class="btn btn-warning">CHECKOUT</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row text-center">
+        <h3>Your Cart is Empty</h3>
+    </div>
+}
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+    $(document).ready(function (){
+
+    });
+    
+    function increase (e,number){
+        $.ajax({
+        type: 'POST',
+        url: "@Url.Action("Increase", "Cart")",
+        headers:{
+            "RequestVerificationToken" : "@getXsrf()"
+        },
+        data: {"CartItemId" : number.toString()},
+        dataType: 'text',
+        content: 'application/x-www-form-urlencoded; charset=UTF-8',
+        success:function (response){
+            if (JSON.parse(response).result === "Added"){
+                $(e).siblings('.qq').val(parseInt($(e).siblings('.qq').val()) + 1)
+                calculateCart();
+                }
+        },
+        error: function (err,aa,bb){
+            if (JSON.parse(err.responseText)['result'] === 0){
+                $(e).closest($('.warp')).remove();
+                updateCartIcon();
+                draw();
+            }if (JSON.parse(err.responseText)['result'] === 'Failed'){
+                $(e).siblings('.max-qty').text("Maximum number is: "+JSON.parse(err.responseText)['max']);
+                }
+            }
+        });
+        
+    }
+    
+        function decrease (e,cartItemId){
+            $.ajax({
+            type: 'POST',
+            url: "@Url.Action("Decrease", "Cart")",
+            headers:{
+                "RequestVerificationToken" : "@getXsrf()"
+            },
+             data: {"CartItemId" : cartItemId.toString()},
+            dataType: 'text',
+            content: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success:function (response){
+                if (JSON.parse(response).result === "Removed"){
+                    $(e).siblings('.qq').val(parseInt($(e).siblings('.qq').val()) - 1)
+                    calculateCart();
+                    if ($(e).siblings('.qq').val() === "0"){
+                        $(e).closest($('.warp')).remove();
+                        updateCartIcon();
+                        showEmptyCart();
+                    }
+
+                    }
+            }
+            });
+
+        }
+        function removeCartItem(e,cartItemId){
+        $.ajax({
+        type:'POST',
+        url: "@Url.Action("DeleteCartItem", "Cart")",
+        data : {"CartItemId" : cartItemId.toString()},
+        dataType: 'text',
+        content: 'application/x-www-form-urlencoded; charset=UTF-8',
+        headers:{
+                "RequestVerificationToken" : "@getXsrf()"
+                },
+        success:function (response){
+            if (JSON.parse(response).result === "Ok!")  {
+                $(e).closest($('.warp')).remove();
+                calculateCart();
+                updateCartIcon();
+                showEmptyCart();
+            }  
+        }
+        });
+        }
+        
+        function calculateCart(){
+        
+        $.ajax({
+        type:'POST',
+        url: "@Url.Action("ReCalculateCart", "Cart")",
+        data : {"CouponCode" : $('#CouponCode').val()},
+        dataType: 'text',
+        content: 'application/x-www-form-urlencoded; charset=UTF-8',
+        headers:{
+                 "RequestVerificationToken" : "@getXsrf()"
+                },
+        success: function (response){
+            let data = JSON.parse(response);
+            $('#subtotal').text(data.subtotal);
+            $('#total').text(data.total);
+            $('#discount').text(data.discount);
+            if (data.couponMsg !== "ok"){
+                $('#coupon-error').text(data.couponMsg);
+            }else{
+                $('#coupon-error').text('');
+                }
+        }
+        })
+        }
+        
+        function showEmptyCart(){
+        if (getCookieValue("Cart") === ""){
+         let newDiv = $('<div class="row text-center"><h3>Your Cart is Empty</h3></div>');
+         $("main").append(newDiv);
+         $('.details').remove();
+            }
+        }
+        
+        
+        
+    </script>
+
+}

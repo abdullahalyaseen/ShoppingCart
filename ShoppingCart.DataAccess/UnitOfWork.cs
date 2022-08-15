@@ -24,6 +24,8 @@ namespace ShoppingCart.DataAccess
             Tag = new TagRepository(_Context);
             Image = new ImageRepository(_Context);
             CartItem = new CartItemRepository(_Context);
+            Coupon = new CouponRepository(_Context);
+            ShippingServices = new ShippingServicesRepository(_Context);
 
         }
 
@@ -36,6 +38,8 @@ namespace ShoppingCart.DataAccess
         public virtual ITagRepository Tag { get; private set; }
         public virtual IImageRepository Image { get; private set; }
         public virtual ICartItemRepository CartItem { get; private set; }
+        public virtual ICoupinRepository Coupon { get; private set; }
+        public virtual IShippingServicesRepository ShippingServices { get; private set; }
         public virtual int Complete()
         {
             _Context.SavingChanges += _DbTracker.SavingChanges;

@@ -1,14 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ShoppingCart.DataAccess;
 using ShoppingCart.DataAccess.Interfaces;
 using ShoppingCart.Models;
 using ShoppingCart.Web.Services;
 using ShoppingCart.Web.ViewModels.Checkout;
-using Stripe;
-using Address = ShoppingCart.Models.Address;
-using Coupon = ShoppingCart.Models.Coupon;
+
 
 namespace ShoppingCart.Web.Controllers;
 
@@ -98,71 +95,20 @@ public class CheckOut : Controller
                         {
                             //create new payment
                             var user = await _userManager.GetUserAsync(User);
-                            
-                            
                             List<OrderItem> orderItems = new List<OrderItem>();
                             IEnumerable<CartItem> cartItems =
                                 _unitOfWork.CartItem.Find(i => i.CartId == cart.CartId, "Product");
                             Address billingAddress = _unitOfWork.Address.Get(model.BillingAddressId);
                             Address shippingAddress = _unitOfWork.Address.Get(model.ShippingAddressId);
-                            
-                            
                             Payment payment = new Payment(result.Charge,billingAddress,user);
-                            // payment.Amount = result.Charge.Amount;
-                            // payment.GatewayId = result.Charge.Id;
-                            // payment.Status = result.Charge.Status;
-                            // payment.CardBrand = result.Charge.PaymentMethodDetails.Card.Brand;
-                            // payment.CvcCheck = result.Charge.PaymentMethodDetails.Card.Checks.CvcCheck;
-                            // payment.Country = result.Charge.PaymentMethodDetails.Card.Country;
-                            // payment.ExpireMonth = result.Charge.PaymentMethodDetails.Card.ExpMonth.ToString();
-                            // payment.ExpireYear = result.Charge.PaymentMethodDetails.Card.ExpYear.ToString();
-                            // payment.LastFourDigits = result.Charge.PaymentMethodDetails.Card.Last4;
-                            // payment.StreetAddress1 = billingAddress.StreetAddress1;
-                            // payment.StreetAddress2 = billingAddress.StreetAddress2;
-                            // payment.City = billingAddress.City;
-                            // payment.State = billingAddress.State;
-                            // payment.Zip = billingAddress.Zip;
-                            // payment.AddressCountry = billingAddress.Country;
-                            // payment.ApplicationUser = user;
-                            
-                            
                             Shipment shipment = new Shipment(shippingService,shippingAddress);
-                            
-                            // shipment.ShippingPrice = shippingService.Price;
-                            // shipment.ShippingServiceId = shippingService.ShippingServiceId;
-                            // shipment.FirstName = shippingAddress.FirstName;
-                            // shipment.LastName = shippingAddress.LastName;
-                            // shipment.StreetAddress1 = shippingAddress.StreetAddress1;
-                            // shipment.StreetAddress2 = shippingAddress.StreetAddress2;
-                            // shipment.City = shippingAddress.City;
-                            // shipment.State = shippingAddress.State;
-                            // shipment.Zip = shippingAddress.Zip;
-                            // shipment.Country = shippingAddress.Country;
-                            // shipment.Mobile = shippingAddress.Mobile;
-                            // shipment.Email = shippingAddress.Email;
-
-
                             foreach (var item in cartItems)
                             {
                                 OrderItem orderItem = new OrderItem(item);
-                                // orderItem.ProductId = item.ProductId;
-                                // orderItem.Quantity = item.Quantity;
-                                // orderItem.Price = item.Product.Price;
-                                // orderItem.DiscountedPrice = item.Product.SalesPrice;
                                 orderItems.Add(orderItem);
                                 _unitOfWork.CartItem.Remove(item);
                             }
-
-                            
                             Order order = new Order(cart,orderItems,user,payment,shipment);
-                            // order.Coupon = cart.Coupon != null ? cart.Coupon : null;
-                            // order.SubTotal = cart.SubtTotal;
-                            // order.DiscountAmount = cart.Discount;
-                            // order.Total = cart.Total;
-                            // order.OrderItems = orderItems;
-                            // order.ApplicationUser = user;
-                            // order.Payment = payment;
-                            // order.Shipment = shipment;
                             order.Coupon.UsedBefore += 1;
                             _unitOfWork.Order.Add(order);
                             Response.Cookies.Delete("Cart");
@@ -174,13 +120,6 @@ public class CheckOut : Controller
                                 { result = "redirect", redirect = Url.Action("ThankYou", "CheckOut") });
 
                             return new EmptyResult();
-
-
-                            //create new order items from each cart item and delete each converted cart item
-                            //create new order from cart and delete cart from database and cookie
-                            //assign payment and items to order
-                            //save changes to database
-                            //redirect to thank you page
                         }
                         else
                         {
@@ -209,7 +148,7 @@ public class CheckOut : Controller
         return new EmptyResult();
     }
 
-    [HttpGet("/thanyou")]
+    [HttpGet("/thankyou")]
     public IActionResult ThankYou()
     {
         return View();

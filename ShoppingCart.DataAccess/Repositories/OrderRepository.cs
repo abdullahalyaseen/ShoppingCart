@@ -4,19 +4,17 @@ using ShoppingCart.Models;
 
 namespace ShoppingCart.DataAccess.Repositories;
 
-public class CouponRepository : Repository<Coupon> , ICouponRepository
+public class OrderRepository : Repository<Order> , IOrderRepository
 {
-
     public ShoppingCartContext context
     {
         get
         {
             return Context as ShoppingCartContext;
-            
         }
     }
-    public CouponRepository(ShoppingCartContext context) : base(context)
+    
+    public OrderRepository(ShoppingCartContext context) : base(context)
     {
-        
     }
 }

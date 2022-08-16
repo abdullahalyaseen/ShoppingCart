@@ -5,12 +5,12 @@
 //
 //     public class PaymentServices
 //     {
-//         public async static  Task<dynamic> PayAsync(string cardNumber, string month,string year, string cvc,int value)
+//         public async static  Task<PaymentMessaging> PayAsync(string cardNumber, string month,string year, string cvc,int value)
 //         {
+//             PaymentMessaging Messenger = new PaymentMessaging();
+//             StripeConfiguration.ApiKey = "";
 //             try
 //             {
-//                 StripeConfiguration.ApiKey = "";
-//                 
 //                 //Generate token options
 //                 var optionsToken = new TokenCreateOptions
 //                 {
@@ -39,19 +39,16 @@
 //                 var chargeService = new ChargeService();
 //                 var charge = await chargeService.CreateAsync(chargeOptions);
 //
-//                 if (charge.Paid)
-//                 {
-//                     return "paid";
-//                 }
-//                 else
-//                 {
-//                     return "failed";
-//                 }
+//                 Messenger.Status = PaymentStatus.Paid;
+//                 Messenger.Charge = charge;
 //             }
 //             catch (Exception e)
 //             {
-//                 return e.Message;
+//                 Messenger.Status = PaymentStatus.Failed;
+//                 Messenger.Exception = e;
 //             }
+//
+//             return Messenger;
 //         }
 //     }
 //

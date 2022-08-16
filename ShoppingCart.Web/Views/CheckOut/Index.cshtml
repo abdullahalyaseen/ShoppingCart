@@ -1,4 +1,5 @@
 @model ShoppingCart.Web.ViewModels.Checkout.CheckOutViewModel;
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf;
 
 
 @{
@@ -12,9 +13,13 @@
     {
         return Math.Round(num / 100.0, 2);
     }
+    public string getXsrf()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
 }
 
-<form asp-action="PlaceOrder" asp-controller="CheckOut" asp-antiforgery="true">
+<form id="form" asp-action="PlaceOrder" asp-controller="CheckOut" asp-antiforgery="true">
     <div class="row">
         <div class="col-md-7">
             <div class="row border m-1 py-2">
@@ -110,8 +115,9 @@
                 <div class="row justify-content-center">
 
                     <div class="col-4">
-                        <input class="btn btn-warning" type="submit" value="Place Order!"/>
+                        <input id="submit" class="btn btn-warning" type="submit" value="Place Order!"/>
                     </div>
+                    <span id="paymenterror" class="text-warning"></span>
 
                 </div>
             </div>
@@ -123,10 +129,53 @@
 @section Scripts
 {
     <script type="text/javascript">
+    
+    $(document).ready(function (){
+        $('#form').on('submit',function (e){
+            e.preventDefault();
+            $('#submit').attr('disabled',true);
+            $.ajax({
+            url: "@Url.Action("PlaceOrder", "CheckOut")",
+            type: 'post',
+            processData: false,
+            contentType: false,
+            cache: false,
+            headers: {
+                    "RequestVerificationToken": "@getXsrf()"
+                        },
+            content: 'application/x-www-form-urlencoded; charset=UTF-8',
+            data: new FormData(this),
+            success:function (res){
+                if (res['result'] === 'redirect'){
+                        window.location.href = res['redirect'];
+                }
+            },
+            error:function (error,aa,dd){
+                $('#submit').attr('disabled',false);
+                let err = error.responseJSON;
+                if (err['result'] === 'paymenterror'){
+                    $('#paymenterror').text(err['msg'])
+                }
+                if (err['result'] === 'notvalid'){
+                    let validator = $('#form').validate();
+                    validator.settings.rules;
+                    validator.messages;
+                    validator.showErrors(err['msgs']);
+                }
+                if (err['result'] === 'redirect'){
+                    console.log(err['redirect']);
+                    window.location.href = err['redirect'];
+                }
+            }
+            });
+        })
+    });
+    
+    
     function calculateShipping(){
         let shippingPrice = $('input[name="ShippingServiceId"]:checked').attr("price");
         $('#shipping').text(shippingPrice);
-        $('#total').text(parseFloat(@Model.Total) + parseFloat(shippingPrice));
+        $('#total').text((parseFloat(@Model.Total) + parseFloat(shippingPrice)).toFixed(2));
     }
     </script>
 }

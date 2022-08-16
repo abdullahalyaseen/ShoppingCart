@@ -14,5 +14,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="Stripe.net" Version="40.2.0" />
   </ItemGroup>
 </Project>

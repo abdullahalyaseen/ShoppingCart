@@ -12,8 +12,13 @@ namespace ShoppingCart.DataAccess.Interfaces
         ITagRepository Tag {get; }
         IImageRepository Image {get;}
         ICartItemRepository CartItem { get; }
-        ICoupinRepository Coupon { get; }
+        ICouponRepository Coupon { get; }
         IShippingServicesRepository ShippingServices { get; }
+        
+        IPaymentRepository Payment { get; }
+        IOrderRepository Order { get; }
+        IOrderItemRepository OrderItem { get; }
+        IShipmentRepository Shipment { get; }
         int Complete();
     }
 }

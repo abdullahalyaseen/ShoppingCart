@@ -28,9 +28,7 @@ namespace ShoppingCart.Models
         public string Zip { get; set; }
 
         public string Country { get; set; }
-
-
-
+        
 
         public virtual ApplicationUser ApplicationUser { get; set; }
     }

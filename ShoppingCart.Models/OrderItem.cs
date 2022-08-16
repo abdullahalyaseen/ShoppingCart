@@ -3,6 +3,10 @@ namespace ShoppingCart.Models
 {
     public class OrderItem
     {
+        public OrderItem()
+        {
+        }
+
         public int OrderItemId { get; set; }
 
         public int OrderId { get; set; }
@@ -15,14 +19,19 @@ namespace ShoppingCart.Models
 
         public int DiscountedPrice { get; set; }
 
-        public int Total { get; set; }
-
-        public int DiscountedTotal { get; set; }
-
 
 
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
+        
+        
+        public OrderItem(CartItem item)
+        {
+            ProductId = item.ProductId;
+            Quantity = item.Quantity;
+            Price = item.Product.Price;
+            DiscountedPrice = item.Product.SalesPrice;
+        }
     }
 }
 

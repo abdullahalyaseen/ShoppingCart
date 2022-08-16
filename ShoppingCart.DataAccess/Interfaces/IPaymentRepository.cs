@@ -2,7 +2,7 @@ using ShoppingCart.Models;
 
 namespace ShoppingCart.DataAccess.Interfaces;
 
-public interface ICoupinRepository : IRepository<Coupon>
+public interface IPaymentRepository : IRepository<Payment>
 {
     
 }

@@ -52,7 +52,7 @@ namespace ShoppingCart.Web.Areas.Management.Controllers
                 {
                     if (model.Image.IsImage())
                     {
-                        string uniqueFileName = FilePathGenerator.GeneraterPath(model.Image, "Images/categories", model.CategoryName, keepName: false);
+                        string uniqueFileName = FilePathGenerator.GeneratePath(_env,model.Image, "Images/categories", model.CategoryName, keepName: false);
 
                         using (FileUpload uploader = new FileUpload(_env, model.Image, uniqueFileName))
                         {
@@ -119,7 +119,7 @@ namespace ShoppingCart.Web.Areas.Management.Controllers
                 {
                     if (Model.NewImage.IsImage())
                     {
-                        string newImage = FilePathGenerator.GeneraterPath(Model.NewImage, "Images/categories", Model.CategoryName, keepName: false);
+                        string newImage = FilePathGenerator.GeneratePath(_env,Model.NewImage, "Images/categories", Model.CategoryName, keepName: false);
 
                         using (FileUpload uploader = new FileUpload(_env, Model.NewImage, newImage))
                         {

@@ -64,6 +64,35 @@
     <Folder Include="Areas\Management\Views\Category\" />
     <Folder Include="Areas\Management\ViewModels\Category\" />
   </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\Images\.DS_Store" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Categories\.DS_Store" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Categories\First Category-2c81b53c-1ce0-4413-b632-5782acb11008.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Categories\First Category-70db9c12-fe4e-4ff3-806a-ab63b58dd2d3.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Categories\First Category-e3d8cc61-4a74-4502-a26e-3d35d6138d62.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Categories\First Category-f22fa402-d797-4cfe-bd0c-380055aa8370.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Categories\First Category-f270f175-1ea5-4e81-9555-255946214a40.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Categories\Second Category-0a9758e0-2cb7-4106-b77b-7ed998834946.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Categories\Second Category-442cb787-a6ba-442f-947d-20a322e78059.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Categories\Second Category-d1b1bd8c-f418-471d-ab2b-5154111343a6.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\.DS_Store" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\11a4a8e4-9a56-45e0-aca6-f09cd076cb8f.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\24c33443-1b02-42cc-95b8-db0eb5845768.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\338b8f1b-c4ed-47b2-88e6-e7fa844721a2.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\4607e3d7-42f1-45e7-ac53-06479327ae21.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\70258927-17f1-4588-be77-aadfda0e243d.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\8a78c0a7-caab-4ed2-b109-72fae58e42ad.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\918ffcac-0dd8-4ac8-80c5-7c9a008a0b1e.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\9d796e37-d78e-4be3-bbd6-3727b145fe7d.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\b2164f7e-d15d-421c-b95a-0024ad708163.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\b3b9c4f4-2007-4802-ae83-c8adb7a0d12e.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\c97a5dd5-0e67-4dad-ac79-61a7fd52a9b0.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\d7ee900a-8237-4e2a-8f54-99f2b03803c8.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\e4abeb4d-cc8f-45fe-a405-1029dfa6fa73.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\e53f631c-1f1a-4807-af86-82f0344382b4.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\eb6baaec-a67e-4e67-99a6-784a1fc279fe.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\Images\Products\faec28a1-29a2-4352-bd0c-3c5016baf84d.jpeg" />
+  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

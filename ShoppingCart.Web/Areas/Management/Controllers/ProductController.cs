@@ -278,7 +278,7 @@ namespace ShoppingCart.Web.Areas.Management.Controllers
                 {
                     if (image.IsImage())
                     {
-                        string ImageUrl = FilePathGenerator.GeneraterPath(image, inRootPath: "Images/Products", keepName: false);
+                        string ImageUrl = FilePathGenerator.GeneratePath(_env,image, inRootPath: "Images/Products", keepName: false);
                         Image imageModel = new Image
                         {
                             Url = ImageUrl
@@ -313,7 +313,7 @@ namespace ShoppingCart.Web.Areas.Management.Controllers
 
         private string PrepairImageUrl(IFormFile image)
         {
-            return FilePathGenerator.GeneraterPath(image, "Images/Products", keepName: false);
+            return FilePathGenerator.GeneratePath(_env,image, "Images/Products", keepName: false);
         }
 
 

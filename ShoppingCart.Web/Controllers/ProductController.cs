@@ -15,7 +15,7 @@ namespace ShoppingCart.Web.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult Product(string id)
         {
             int productId = ProductUrl.GetProductId(id);

@@ -95,7 +95,7 @@ else
         content: 'application/x-www-form-urlencoded; charset=UTF-8',
         success:function (response){
             if (JSON.parse(response).result === "Added"){
-                $(e).siblings('.qq').val(parseInt($(e).siblings('.qq').val()) + 1)
+                $(e).siblings('.qty').val(parseInt($(e).siblings('.qty').val()) + 1)
                 calculateCart();
                 }
         },
@@ -124,9 +124,9 @@ else
             content: 'application/x-www-form-urlencoded; charset=UTF-8',
             success:function (response){
                 if (JSON.parse(response).result === "Removed"){
-                    $(e).siblings('.qq').val(parseInt($(e).siblings('.qq').val()) - 1)
+                    $(e).siblings('.qty').val(parseInt($(e).siblings('.qty').val()) - 1)
                     calculateCart();
-                    if ($(e).siblings('.qq').val() === "0"){
+                    if ($(e).siblings('.qty').val() === "0"){
                         $(e).closest($('.warp')).remove();
                         updateCartIcon();
                         showEmptyCart();

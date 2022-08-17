@@ -1,0 +1,40 @@
+@using Stripe
+@model ShoppingCart.Models.Product;
+
+
+@{
+    string baseUrl = BaseUrl.GetBaseUrl(Context);
+    string priceClass = Model.SalesPrice != 0 ? "product-old-price" : "product-price";
+    double price = Math.Round(Model.Price / 100.0, 2);
+    double salesPrice = Math.Round(Model.SalesPrice / 100.0, 2);
+    double discount = Math.Round((Model.Price / 100.0 - Model.SalesPrice / 100.0) / (Model.Price / 100.0) * 100.0, 2);
+    string productUrl = ProductUrl.GenerateProductUrl(Model.Title, Model.ProductId);
+}
+
+<div id="@Model.ProductId" class="product-card ">
+
+    <div class="product-card-img border rounded" style="background-image: url('@baseUrl@Model.MainImage') ">
+
+    </div>
+    <div class="product-card-body">
+        <div class="product-card-title">
+            <p><a asp-action="Product" asp-controller="Product" asp-route-Id="@productUrl">@Model.Title</a></p>
+        </div>
+        <div class="product-rate">
+            <p>rating</p>
+        </div>
+        <div class="product-card-price">
+            @if (Model.SalesPrice > 0)
+            {
+                <p class="product-new-price">$@salesPrice</p>
+            }
+            <p>
+                <span class="@priceClass">$@price</span>
+                @if (Model.SalesPrice > 0)
+                {
+                    <span class="discount-percent">%@discount</span>
+                }
+            </p>
+        </div>
+    </div>
+</div>

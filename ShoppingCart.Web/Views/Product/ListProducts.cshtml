@@ -1,19 +1,22 @@
 @{
     var baseUrl = BaseUrl.GetBaseUrl(Context);
 }
-<div class="row ">
-    @foreach (var product in Model)
-    {
-        <div class="col-md-3">
-            <div class="card mx-3 my-3" style="width: 18rem">
-                <img class="card-img-top" src="@baseUrl@product.MainImage" alt="@product.Title" style="height:18rem" />
-                <div class="card-body">
-                    <h5 class="card-title"><a asp-action="Product" asp-controller="Product"
-                        asp-route-Id="@ProductUrl.GenerateProductUrl(@product.Title,@product.ProductId)">@product.Title</a>
-                    </h5>
-                    <h6 class="card-text">@product.ProductId</h6>
-                </div>
-            </div>
-        </div>
-    }
+<div class="section-products">
+    <div class="row justify-content-center">
+        @foreach (var product in Model)
+        {
+            <partial name="_ProductCardPartialView" model="product"/>
+        @* <div class="col-md-3"> *@
+        @*     <div class="card mx-3 my-3" style="width: 18rem"> *@
+        @*         <img class="card-img-top" src="@baseUrl@product.MainImage" alt="@product.Title" style="height:18rem" /> *@
+        @*         <div class="card-body"> *@
+        @*             <h5 class="card-title"><a asp-action="Product" asp-controller="Product" *@
+        @*                 asp-route-Id="@ProductUrl.GenerateProductUrl(@product.Title,@product.ProductId)">@product.Title</a> *@
+        @*             </h5> *@
+        @*             <h6 class="card-text">@product.ProductId</h6> *@
+        @*         </div> *@
+        @*     </div> *@
+        @* </div> *@
+        }
+    </div>
 </div>

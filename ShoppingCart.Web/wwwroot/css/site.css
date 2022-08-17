@@ -1,138 +1,168 @@
-﻿
-.website{
-  max-width: 1366px;
-  margin: 0 auto;
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif;
+    color: #444444;
+}
+
+.website {
+    max-width: 1366px;
+    margin: 0 auto;
 
 }
+
 .box {
-  min-width: 100%;
-  height: calc(100vw / 0.75);
-  max-height: 81vh;
+    min-width: 100%;
+    height: calc(100vw / 0.75);
+    max-height: 81vh;
 
 }
 
 .inner {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
 
 }
+
 .carousel .carousel-indicators button {
-  background-color: black;
+    background-color: black;
 
 }
 
 .carousel .carousel-indicators {
-  bottom: -40px;
+    bottom: -40px;
 }
 
 .carousel .carousel-inner {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
-.price{
-  font-size:2rem;
-  font-weight: 600;
+.price {
+    font-size: 2rem;
+    font-weight: 600;
 
 }
-.cancelled-price{
-  font-size:1.5rem;
-  font-weight: 600;
-  color: red;
-  text-decoration: line-through;
+
+.cancelled-price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: red;
+    text-decoration: line-through;
 }
 
-.sales-price{
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-left: 1rem;
-  color: green;
+.sales-price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-left: 1rem;
+    color: green;
+}
+
+.qty-container {
+    max-width: 180px;
+    min-width: 140px
+}
+
+.qty {
+    padding: 0;
+    text-align: center;
+}
+
+.cart-price {
+    margin: 0 2px;
+}
+
+.cart-old-price {
+    margin: 0 4px;
+    color: red;
+    text-decoration: line-through;
+}
+
+.cart-new-price {
+    margin: 0 4px;
+    color: green;
+}
+
+.cart-image {
+    width: 100px;
+}
+
+.total-price {
+    font-size: large;
+    font-weight: bold;
 }
 
 
-.cart-price{
-margin: 0 2px;
-}
-.cart-cancelled-price{
-  margin: 0 4px;
-  color: red;
-  text-decoration: line-through;
+.add-to-cart {
+    font-size: 1.5rem;
+    min-width: 180px
 }
 
-.cart-sales-price{
-  margin: 0 4px;
-  color: green;
-}
-.cart-image{
-  width: 100px;
-}
-.total-price{
-  font-size: large;
-  font-weight: bold;
+.product-card {
+    height: 350px;
+    width: 225px;
+    padding: 0 8px;
 }
 
-/* Quantity Selector Product page */
-.qty .count {
-  color: #000;
-  display: inline-block;
-  vertical-align: top;
-  font-size: 25px;
-  font-weight: 700;
-  line-height: 30px;
-  padding: 0 2px;
-  min-width: 35px;
-  text-align: center;
-}
-.qty .plus {
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: top;
-  color: white;
-  width: 30px;
-  height: 30px;
-  font: 30px/1 Arial,sans-serif;
-  text-align: center;
-  border-radius: 50%;
-  }
-.qty .minus {
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: top;
-  color: white;
-  width: 30px;
-  height: 30px;
-  font: 30px/1 Arial,sans-serif;
-  text-align: center;
-  border-radius: 50%;
-  background-clip: padding-box;
-}
-.qty .minus:hover{
-  background-color: blue !important;
-}
-.qty .plus:hover{
-  background-color: blue !important;
-}
-/*Prevent text selection*/
-.qty span{
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-.qty input{  
-  border: 0;
-  width: 2%;
-}
-.qty nput::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.qty input:disabled{
-  background-color:white;
+.product-card-img {
+    height: 50%;
+    width: 100%;
+    margin: 0;
+    background-size: contain, cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.add-to-cart{
-  font-size: 1.5rem;
-  min-width:180px
+.product-card-body {
+    width: 100%;
+    height: 47%;
+    margin-top: 4%;
+    padding: 0 8px;
+}
+
+.product-card-title {
+    height: 25%;
+    overflow: hidden;
+    text-overflow: "...";
+    font-size: 0.9rem;
+    color: dimgray;
+}
+
+.product-rate {
+    margin: 4px 4px;
+}
+
+.product-card-price {
+}
+
+.product-card .product-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.product-card .product-old-price {
+    text-decoration-line: line-through;
+    font-size: 0.9rem;
+    color: gray;
+
+}
+
+.product-card .product-new-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.product-card .discount-percent {
+    font-size: 0.8rem;
+    color: red;
+}
+
+.product-card p {
+    margin: 0;
+}
+
+.product-card a {
+    text-decoration: inherit;
+    color: inherit;
 }

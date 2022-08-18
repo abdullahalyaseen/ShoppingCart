@@ -33,7 +33,7 @@
         <div class="row qty-container">
             <button id="decrease.@Model.CartItemId" class="col-3 btn border" onclick="decrease(this,@Model.CartItemId)">-</button>
 
-            <input id="qty.@Model.CartItemId" class="qty col-3" value="@Model.Quantity" disabled/>
+            <input id="qty.@Model.CartItemId" class="qty border rounded col-3" value="@Model.Quantity" disabled/>
 
             <button id="increase.@Model.CartItemId" class="col-3 btn border" onclick="increase(this,@Model.CartItemId)">+</button>
             <span class="d-block max-qty text-danger"></span>

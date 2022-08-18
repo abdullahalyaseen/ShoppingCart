@@ -7,7 +7,7 @@ function getCookieValue(cname) { // cname is nothing but the cookie value which
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
@@ -17,4 +17,13 @@ function getCookieValue(cname) { // cname is nothing but the cookie value which
         }
     }
     return "";
+}
+
+function calculateRating() {
+    let rateElements = document.getElementsByClassName("star-inner");
+    for (let i = 0; i < rateElements.length; i++) {
+        let rate = (rateElements[i].getAttributeNode("rating").value / 5 ) * 100;
+        let stars = `${rate}%`;
+        document.getElementById(rateElements[i].id).style.width = stars;
+    }
 }

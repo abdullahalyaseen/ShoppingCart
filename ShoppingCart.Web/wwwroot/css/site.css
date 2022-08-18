@@ -67,6 +67,8 @@ body {
 .qty {
     padding: 0;
     text-align: center;
+    margin-left: 1px;
+    margin-right: 1px;
 }
 
 .cart-price {
@@ -101,7 +103,7 @@ body {
 
 .product-card {
     height: 350px;
-    width: 225px;
+    width: 190px;
     padding: 0 8px;
 }
 
@@ -166,3 +168,39 @@ body {
     text-decoration: inherit;
     color: inherit;
 }
+
+
+/*Star Rating start*/
+.product-rate{
+    padding: 0;
+    margin: 4px 0;
+}
+.star-outer{
+    padding: 0;
+    margin:0;
+    position: relative;
+    display:inline-block;
+}
+.star-inner{
+    position: absolute;
+    width: 0;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.star-outer::before{
+    font-family: "font awesome 5 free";
+    font-weight: 900;
+    color: #bfbfbf;
+    content: "\f005 \f005 \f005 \f005 \f005";
+}
+
+.star-inner::before{
+    font-family: "font awesome 5 free";
+    font-weight: 900;
+    color: #f6bf02;
+    content: "\f005 \f005 \f005 \f005 \f005";
+}
+/*Star rating end*/

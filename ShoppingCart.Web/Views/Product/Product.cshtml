@@ -51,6 +51,11 @@
         </div>
         <div class="col-lg-6 mt-4">
             <h1>@Model.Title</h1>
+            <div class="product-rate">
+                <div class="star-outer">
+                    <div id="star-inned-@Model.Id" class="star-inner" rating="4.9"></div>
+                </div>
+            </div>
             <a id="ratings" href="#nav-reviews">
                 <h6>@Model.Rating / 5 (@Model.NumberOfReview)</h6>
             </a>
@@ -69,7 +74,7 @@
                 <div class=" d-inline col-4 align-self-center">
                     <div class="row qty-container">
                         <button class="col-3 btn minus border">-</button>
-                        <input class="qty col-3 count" id="qty" value="1">
+                        <input class="qty col-3 count border rounded" id="qty" value="1">
                         <button class="col-3 btn plus border">+</button>
                     </div>
                 </div>

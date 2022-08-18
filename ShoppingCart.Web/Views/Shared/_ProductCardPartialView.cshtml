@@ -21,7 +21,9 @@
             <p><a asp-action="Product" asp-controller="Product" asp-route-Id="@productUrl">@Model.Title</a></p>
         </div>
         <div class="product-rate">
-            <p>rating</p>
+            <div class="star-outer">
+                <div id="star-inner-@Model.ProductId" class="star-inner" rating="@Model.ProductId"></div>
+            </div>
         </div>
         <div class="product-card-price">
             @if (Model.SalesPrice > 0)

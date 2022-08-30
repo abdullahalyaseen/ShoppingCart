@@ -39,6 +39,7 @@ button.accept-policy {
   line-height: inherit;
 }
 
+
 .site-footer {
   position: absolute;
   bottom: 0;
@@ -46,4 +47,7 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+
+
 

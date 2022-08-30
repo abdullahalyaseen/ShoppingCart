@@ -32,10 +32,10 @@ public class CartController : Controller
             
             var cartItems =
                 _unitOfWork.CartItem.Find(i => i.CartId == Guid.Parse(cartId), includeProperties: "Product");
-            if (cartItems != null)
+            if (cartItems.Any())
             {
 
-                _unitOfWork.Complete();
+                // _unitOfWork.Complete();
                 string coupon = null;
                 var cart = _unitOfWork.Cart.GetWith(c=>c.CartId == Guid.Parse(cartId),"Coupon");
                 if (cart.Coupon != null)
@@ -53,6 +53,11 @@ public class CartController : Controller
                 cartViewModel.SubTotal = subtotal;
                 cartViewModel.Discount = discount;
                 return View(cartViewModel);
+            }
+            //check if there is cart cookie but no items in database
+            if (cartId.Any() && !cartItems.Any())
+            {
+                Response.Cookies.Delete("Cart");
             }
         }
 

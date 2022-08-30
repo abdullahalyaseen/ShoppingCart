@@ -15,6 +15,8 @@ namespace ShoppingCart.DataAccess.Interfaces
         ICouponRepository Coupon { get; }
         IShippingServicesRepository ShippingServices { get; }
         
+        IReviewRepository Review { get; }
+        
         IPaymentRepository Payment { get; }
         IOrderRepository Order { get; }
         IOrderItemRepository OrderItem { get; }

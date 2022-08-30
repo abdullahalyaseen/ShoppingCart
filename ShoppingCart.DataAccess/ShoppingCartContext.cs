@@ -46,6 +46,7 @@ namespace ShoppingCart.DataAccess
 
             builder.Entity<Product>().HasMany(p => p.Tags).WithMany(t => t.Products);
             builder.Entity<Product>().HasMany(p => p.CartItems);
+            builder.Entity<Review>().HasOne(r => r.ApplicationUser).WithMany(p=>p.Reviews);
             base.OnModelCreating(builder);
         }
     }

@@ -8,17 +8,17 @@
 
 }
 
-<ul class="navbar-nav">
+<ul class="navbar-nav flex-grow-2 align-items-md-center align-items-sm-start">
 
     <partial name="_CartPartialView"/>
-    <li class="nav-item mx-2">
-        <button type="button" class="btn btn-outline-light text-dark nav-link">
+    <li class="nav-item">
+        <button type="button" class="btn border-0 text-dark nav-link">
             <i class="bi bi-heart"></i>
         </button>
     </li>
-    <li class="nav-item mx-2">
+    <li class="nav-item">
         <div class="dropdown">
-            <button class="btn btn-outline-light dropdown-toggle text-dark nav-link" type="button" data-bs-toggle="dropdown">
+            <button class="btn border-0 dropdown-toggle text-dark nav-link" type="button" data-bs-toggle="dropdown">
                 <i class="bi bi-person-circle"></i>
 
                 @if (IsSignedIn)

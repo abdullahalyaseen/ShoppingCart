@@ -1,0 +1,18 @@
+@{
+    dynamic query = "";
+    if (Context.Request.Path == "/Search")
+    {
+        query =  ViewData["SearchQuery"];
+    }
+}
+<ul class="navbar-nav flex-grow-1 ">
+    <li class="nav-item w-100 d-inline-flex ">
+        <form asp-action="Search" asp-controller="Product" method="get" class="w-100 justify-content-md-center justify-content-sm-start">
+            <div class="search-container d-flex align-items-center justify-content-between mx-md-auto">
+                <i class="bi bi-search"></i>
+                <input type="text" name="q" class="search-input" value="@query"/>
+                <button class="search-btn">Search</button>
+            </div>
+        </form>
+    </li>
+</ul>

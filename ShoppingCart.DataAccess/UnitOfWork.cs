@@ -30,6 +30,7 @@ namespace ShoppingCart.DataAccess
             Order = new OrderRepository(_Context);
             OrderItem = new OrderItemRepository(_Context);
             Shipment = new ShipmentRepository(_Context);
+            Review = new ReviewRepository(_Context);
 
         }
 
@@ -48,6 +49,8 @@ namespace ShoppingCart.DataAccess
         public virtual IOrderRepository Order { get; private set; }
         public virtual IOrderItemRepository OrderItem { get; private set; }
         public virtual IShipmentRepository Shipment { get; private set; }
+        
+        public virtual IReviewRepository Review { get; private set; }
         public virtual int Complete()
         {
             _Context.SavingChanges += _DbTracker.SavingChanges;

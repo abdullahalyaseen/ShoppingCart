@@ -1,4 +1,4 @@
-@using Stripe
+@using ShoppingCart.Web.Services.ProductServices
 @model ShoppingCart.Models.Product;
 
 
@@ -9,7 +9,10 @@
     double salesPrice = Math.Round(Model.SalesPrice / 100.0, 2);
     double discount = Math.Round((Model.Price / 100.0 - Model.SalesPrice / 100.0) / (Model.Price / 100.0) * 100.0, 2);
     string productUrl = ProductUrl.GenerateProductUrl(Model.Title, Model.ProductId);
+    double getRates = Model.Reviews.Any() ? ProductServices.CalculateRating(Model.Reviews) : 0;
 }
+
+
 
 <div id="@Model.ProductId" class="product-card ">
 
@@ -20,11 +23,13 @@
         <div class="product-card-title">
             <p><a asp-action="Product" asp-controller="Product" asp-route-Id="@productUrl">@Model.Title</a></p>
         </div>
-        <div class="product-rate">
-            <div class="star-outer">
-                <div id="star-inner-@Model.ProductId" class="star-inner" rating="@Model.ProductId"></div>
+        <div class="product-rate d-inline">
+            <div  class="star-outer">
+                <div id="star-inner-@Model.ProductId" class="star-inner" rating="@getRates"></div>
             </div>
+            <span>(@Model.Reviews.Count)</span>
         </div>
+        
         <div class="product-card-price">
             @if (Model.SalesPrice > 0)
             {

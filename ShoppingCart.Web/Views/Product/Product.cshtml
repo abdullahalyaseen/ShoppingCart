@@ -1,10 +1,11 @@
-@model ShoppingCart.Web.ViewModels.Product.ProductViewModel;
+@model ShoppingCart.Web.ViewModels.Products.ProductViewModel;
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf;
 @{
     ViewData["Title"] = Model.Title;
     string baseUrl = BaseUrl.GetBaseUrl(Context);
     string priceClass = Model.SalesPrice != 0 ? "cancelled-price" : "price";
     string disableAddToCart = Model.Quantity == 0 ? "disabled" : "";
+
 }
 
 @functions {
@@ -20,7 +21,23 @@
 
 <div class="col-12">
     <div class="row">
-        <div class="col-lg-6">
+        <div class=" col-lg-6 d-md-block d-sm-none d-none d-lg-block d-xl-block">
+            <div class="gallery-lg rounded-3">
+                <img class="gallery-img-lg" src="@Model.Gallery.First()"/>
+            </div>
+            <div class="gallery-icons-container ">
+                <div class="row justify-content-center">
+                    @if (Model.Gallery.Count() > 1)
+                    {
+                        @foreach (var image in Model.Gallery)
+                        {
+                            <div class="gallery-icon rounded-3" style="background-image: url('@image')" onclick="changeGalleryImage('@image')"></div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 d-block d-sm-block d-md-none  d-lg-none d-xl-none">
             <div id="gallery" class="carousel slide" data-bs-ride="carousel">
 
                 <div class="carousel-indicators">
@@ -50,43 +67,49 @@
             </div>
         </div>
         <div class="col-lg-6 mt-4">
-            <h1>@Model.Title</h1>
-            <div class="product-rate">
+            <h1 class="fs-3 fw-normal">@Model.Title</h1>
+            <div class="product-rate d-inline-block me-1">
                 <div class="star-outer">
-                    <div id="star-inned-@Model.Id" class="star-inner" rating="4.9"></div>
+                    <div id="star-inner-@Model.Id" class="star-inner" rating="@Model.Rating"></div>
                 </div>
             </div>
-            <a id="ratings" href="#nav-reviews">
-                <h6>@Model.Rating / 5 (@Model.NumberOfReview)</h6>
+            <a id="ratings" class="d-inline-block" href="#nav-reviews">
+                <h6>(@Model.NumberOfReview)</h6>
             </a>
-            <span class="@priceClass">
-                $@Model.Price
-            </span>
-
-            @if (Model.SalesPrice != 0)
-            {
-                <span class="sales-price">
-                    $@Model.SalesPrice
+            <div>
+                <span class="@priceClass">
+                    $@Model.Price
                 </span>
-            }
+
+                @if (Model.SalesPrice != 0)
+                {
+                    <span class="price sales-price">
+                        $@Model.SalesPrice
+                    </span>
+                }
+            </div>
             <hr/>
-            <div class="row ms-1">
+            <div class="row ms-1 justify-content-start align-items-center">
                 <div class=" d-inline col-4 align-self-center">
                     <div class="row qty-container">
-                        <button class="col-3 btn minus border">-</button>
+                        <button class="col-3 btn qty-btn minus border">-</button>
                         <input class="qty col-3 count border rounded" id="qty" value="1">
-                        <button class="col-3 btn plus border">+</button>
+                        <button class="col-3 btn qty-btn plus border">+</button>
                     </div>
                 </div>
-                <div class="d-inline col-3 ">
-                    <button id="add-to-cart" type="button" class="btn btn-warning add-to-cart" @disableAddToCart>Add To Cart</button>
+                <div class="d-inline col-7 p-0 m-0 ">
+                    <button id="add-to-cart" type="button" class="btn btn-warning add-to-cart d-inline-block me-lg-3" @disableAddToCart>Add To Cart</button>
+                    <button class="p-0 m-0 btn d-inline-block fs-3">
+                        <i class="bi bi-heart "></i>
+                    </button>
                 </div>
+
             </div>
             <span id="max-qty" class="d-block text-danger"></span>
         </div>
     </div>
     <nav class="mt-5">
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <div class="nav nav-tabs " id="nav-tab" role="tablist">
             <button class="nav-link active" id="nav-description-tab" data-bs-toggle="tab"
                     data-bs-target="#nav-description" type="button" role="tab" aria-controls="nav-description"
                     aria-selected="true">
@@ -98,10 +121,10 @@
             </button>
         </div>
     </nav>
-    <div class="tab-content" id="nav-tabContent">
+    <div class="tab-content border border-top-0 pb-3" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-description" role="tabpanel"
              aria-labelledby="nav-description-tab" tabindex="0">
-            <div class="mx-2 mt-2 fs-4">
+            <div class="mx-2 pt-2 fs-4">
 
                 @foreach (var line in Model.Description)
                 {
@@ -110,8 +133,21 @@
             </div>
         </div>
         <div class="tab-pane fade" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab" tabindex="0">
-            Reviews
-
+            <div>
+                @if (Model.Reviews.Any())
+                {
+                    <h5 class="pt-3 pb-1 ps-2">@Model.Title Reviews</h5>
+                    @foreach (var (value,i) in Model.Reviews.Select((value, i) => (value,i)))
+                    {
+                        <hr/>
+                        <partial name="_ProductReview" model="@value"/>
+                    }
+                }
+                else
+                {
+                    <h5 class="pt-2 pb-2 ps-2">@Model.Title does not have reviews yet..</h5>
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -171,5 +207,9 @@
                })
             });
     });
+    
+    function changeGalleryImage(url){
+        $('.gallery-img-lg').attr('src',url);
+    }
 </script>
 }

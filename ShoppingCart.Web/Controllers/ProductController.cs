@@ -1,9 +1,12 @@
 using System;
+using System.Diagnostics;
 using ShoppingCart.DataAccess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Utilities.Url;
-using ShoppingCart.Web.ViewModels.Product;
+using ShoppingCart.Web.ViewModels.Products;
+using ShoppingCart.Web.Services.ProductServices;
 using ShoppingCart.Models;
+
 namespace ShoppingCart.Web.Controllers
 {
     public class ProductController : Controller
@@ -19,14 +22,17 @@ namespace ShoppingCart.Web.Controllers
         public IActionResult Product(string id)
         {
             int productId = ProductUrl.GetProductId(id);
-            var product = _unitOfWork.Product.GetWith(p=>p.ProductId == productId,"Images,Tags,Reviews");
+            var product = _unitOfWork.Product.GetWith(p => p.ProductId == productId, "Images,Tags");
             if (product != null)
             {
+                var reviews = _unitOfWork.Review.Find(r => r.ProductId == product.ProductId, "ApplicationUser");
                 List<string> gallery = new List<string>();
                 gallery.Add(product.MainImage);
-                foreach(var image in product.Images){
+                foreach (var image in product.Images)
+                {
                     gallery.Add(image.Url);
                 }
+
                 ProductViewModel Model = new ProductViewModel();
                 Model.Id = product.ProductId;
                 Model.Title = product.Title;
@@ -38,34 +44,34 @@ namespace ShoppingCart.Web.Controllers
                 Model.ShortDescription = product.ShortDescription;
                 Model.Tags = product.Tags;
                 Model.Gallery = gallery;
-                Model.Rating = CalculateRating(product.Reviews);
-                Model.NumberOfReview = product.Reviews == null ? 0 : product.Reviews.Count();
+                Model.Rating = ProductServices.CalculateRating(reviews);
+                Model.NumberOfReview = reviews.Any() ? reviews.Count() : 0;
+                Model.Reviews = reviews;
                 return View(Model);
             }
 
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet("/search")]
+        public IActionResult Search(string q,int category, double min, double max,string rate,string sortBy)
+        {
+            if (q != null)
+            {
+                var rateList =rate != null ? rate.Split('-').ToList() : null;
+                
+                var result = _unitOfWork.Product.Search(q,categoryid: category,lowerPrice:(int)min*100,upperPrice:(int)max*100,rating:rateList,orderby:sortBy);
+                return View(result);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
         //TODO: For Development only
         [HttpGet]
         public IActionResult ListProducts()
         {
-            var Products = _unitOfWork.Product.GetAll();
+            var Products = _unitOfWork.Product.Find(includeProperties:"Reviews");
             return View(Products);
         }
-
-
-        private double CalculateRating(IEnumerable<Review> Reviews){
-            double TotalRate = 0;
-            if(Reviews.Count() != 0){
-                foreach(var review in Reviews){
-                TotalRate += review.Rate;
-            }
-            return TotalRate / Reviews.Count();
-            }else{
-                return 0;
-            }
-        }
-
     }
 }

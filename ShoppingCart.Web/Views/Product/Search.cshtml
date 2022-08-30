@@ -1,0 +1,145 @@
+@model ShoppingCart.DataAccess.DTOs.ProductSearchResult;
+@{
+    var query = Context.Request.Query.Where(q => q.Key == "q").First().Value;
+    ViewData["Title"] = query;
+    ViewData["SearchQuery"] = query;
+    var min = Context.Request.Query.ContainsKey("min") ? Context.Request.Query.Where(q => q.Key == "min").First().Value.ToString() : null;
+    var max = Context.Request.Query.ContainsKey("max") ? Context.Request.Query.Where(q => q.Key == "max").First().Value.ToString() : null;
+    var isCategoryChecked = Context.Request.Query.ContainsKey("category") ? "checked" : null;
+}
+
+@functions
+{
+    private string isRateChecked(int number)
+    {
+        if (Context.Request.Query.ContainsKey("rate"))
+        {
+            return Context.Request.Query.Where(q => q.Key == "rate").First().Value.ToString().Split('-').Contains(number.ToString()) ? "checked" : null;
+        }
+        return null;
+    }
+}
+
+
+@if (!Model.Products.Any())
+{
+    <h5 class="justify-content-center">No result found for "@Context.Request.Query.Where(q => q.Key == "q").First().Value"</h5>
+}
+else
+{
+    <form id="search-form" asp-action="Search" asp-controller="Product" method="get">
+        <div class="row px-2">
+            <input name="q" value="@Context.Request.Query.Where(q => q.Key == "q").First().Value" hidden/>
+            <input id="rate" name="rate" hidden/>
+            <div class="col-lg-3 d-lg-block d-md-none d-sm-none d-none border rounded pt-3 px-0 search-side-bar">
+
+                <div class="search-categories">
+                    <h6>Category</h6>
+                    <div class="categories-list">
+                        <input id="category-0" class="canRefresh" type="radio" name="category" value="0" hidden/>
+                        <label for="category-0">All Categories</label>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <div class="category-name">
+                                <input class="category-selector canRefresh" id="category-@category.CategoryId" type="radio" name="category" @isCategoryChecked value="@category.CategoryId" hidden/>
+                                <label for="category-@category.CategoryId">@category.CategoryName</label>
+                                <span class="category-product-count">@category.ProductsCount</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr/>
+                <div class="price-range">
+                    <h6>Price Range</h6>
+                    <div class="price-range-inputs">
+                        <input type="number" id="min-price" name="min" placeholder="Min" value="@min"/>
+                        <input type="number" id="max-price" name="max" placeholder="Max" value="@max"/>
+                        <button class="btn btn-primary">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <hr/>
+                <div class="Rating-options">
+                    <h6>Customer Reviews</h6>
+                    <div class="reviews-list">
+                        @for (int i = 5; i > 0; i--)
+                        {
+                            <div>
+                                <input class="canRefresh rate-selector" type="checkbox" name="rate-@i" id="rate-@i" @isRateChecked(i) value="@i"/>
+                                <label for="rate-@i">
+                                    <div class="product-rate">
+                                        <div class="star-outer">
+                                            <div id="search-star-inner-@i" class="star-inner" rating="@i"></div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-9">
+                <div class="row justify-content-sm-end justify-content-between ">
+                    <button class="d-block d-sm-block d-md-block d-lg-none d-xl-none d-xxl-none btn btn-warning filter-btn me-2">Filter</button>
+                    <select name="sortBy" class="sort-by form-select canRefresh">
+                        <option value="" selected class="d-none" disabled>Sort By</option>
+                        <option value="price-asc" class="sort-option" >Price: Low to High</option>
+                        <option value="price-desc" class="sort-option" >Price: High to Low</option>
+                        <option value="review-rank" class="sort-option" >Customer Review</option>
+                        <option value="date-desc" class="sort-option" >Newest Arrivals</option>
+                    </select>
+                </div>
+                <div class="row pt-2 justify-content-center justify-content-sm-start">
+                    @foreach (var product in Model.Products)
+                    {
+                        <partial name="_ProductCardPartialView" model="product"/>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </form>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+    
+    $(document).ready(function (){
+        $('.sort-option').each(function (){
+            let sortby = new URLSearchParams(window.location.search).get('sortBy');
+            let option = $(this);
+            let optionVal = $(this).val();
+            if (sortby == optionVal){
+                option.attr('selected',true);
+            }
+        });
+    });
+    
+    $('#search-form').on('submit',function (){       
+       let value = ""
+        $('.rate-selector').each(function (){
+            let rateSelector = $(this);
+            if (document.getElementById(this.id).checked){
+                console.log(rateSelector.val());
+                value = value + rateSelector.val() + '-';
+                rateSelector.val("");
+            }    
+        });
+       value = value.slice(0,-1);
+       $('#rate').val(value); 
+       
+      $('#search-form').find('input').each(function (){
+      let input = $(this);
+      if (input.val() === "" || input.val() === "0"){
+      input.remove();
+        }
+        });
+    });
+    $('.canRefresh').on('change',function (){
+        $('#search-form').submit();
+    });
+    </script>
+}

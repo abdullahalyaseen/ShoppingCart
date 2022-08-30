@@ -1,7 +1,7 @@
 using System;
 using ShoppingCart.Models;
 
-namespace ShoppingCart.Web.ViewModels.Product
+namespace ShoppingCart.Web.ViewModels.Products
 {
     public class ProductViewModel
     {
